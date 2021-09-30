@@ -6,6 +6,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
+      value: '',
       todos: [
         {
           id: 1,
@@ -27,6 +28,24 @@ class App extends React.Component {
     };
   };
 
+  // because we are using arrow fn here
+  // so no need to bind the function
+  // resulting in cleaner code
+  handleChange = (event) => {
+    this.setState({
+      value: event.target.value,
+    })
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const newTodos = [...this.state.todos, { title: this.state.value }];
+    this.setState({
+      value: '',
+      todos: newTodos
+    });
+  };
+
   componentDidMount() {
     console.log('component did mount');
   };
@@ -36,10 +55,14 @@ class App extends React.Component {
   };
 
   render() {
-    const { todos } = this.state;
+    const { todos, value } = this.state;
 
     return (
       <Layout>
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" onChange={this.handleChange} value={value} />
+          <input type="submit" value="Submit" />
+        </form>
         <ul>
           {todos.map((todo, index) => (
             <li key={index}>
