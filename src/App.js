@@ -6,25 +6,32 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
-      value: '',
+      priorities: ['Low', 'Medium', 'High'],
+      initialTodo: {
+        title: '',
+        description: '',
+        isCompleted: false,
+        priority: 0,
+        dueDate: ''
+      },
       todos: [
         {
           id: 1,
           title: 'hello 1',
           description: 'Lorem ipsum dolor sit amet.',
           isCompleted: false,
-          priority: 'low',
-          createdAt: Date.now()
+          priority: 0,
+          dueDate: Date.now()
         },
         {
           id: 2,
           title: 'hello 2',
           description: 'Lorem ipsum dolor sit amet.',
           isCompleted: true,
-          priority: 'low',
-          createdAt: Date.now()
+          priority: 2,
+          dueDate: Date.now()
         },
-      ]
+      ],
     };
   };
 
