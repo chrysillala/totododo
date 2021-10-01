@@ -45,6 +45,7 @@ class App extends React.Component {
     const newTodos = [...this.state.todos, {
       title: this.state.todoForm.title,
       description: this.state.todoForm.description,
+      priority: this.state.todoForm.priority,
     }];
     this.setState({
       todoForm: initialTodo,
@@ -74,12 +75,18 @@ class App extends React.Component {
   };
 
   render() {
-    const { todos, todoForm } = this.state;
+    const { todos, todoForm, priorities } = this.state;
 
     return (
       <Layout>
         <form onSubmit={this.handleSubmit}>
           <input type="text" name="title" onChange={this.handleInputChange} value={todoForm.title} placeholder="Enter task title" />
+
+          <select name="priority" onChange={this.handleInputChange} value={todoForm.priority}>
+            {priorities.map((priority, index) => (
+              <option key={priority} value={index}>{priority}</option>
+            ))}
+          </select>
 
           <textarea type="text" name="description" onChange={this.handleInputChange} value={todoForm.description} placeholder="Enter task description" />
 
@@ -88,7 +95,7 @@ class App extends React.Component {
         <ul>
           {todos.map((todo, index) => (
             <li key={index}>
-              {todo.title}
+              {todo.title} - {priorities[todo.priority]}
               <br />
               {todo.description}
             </li>
