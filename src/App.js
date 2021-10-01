@@ -38,20 +38,27 @@ class App extends React.Component {
   // because we are using arrow fn here
   // so no need to bind the function
   // resulting in cleaner code
-  handleChange = (event) => {
-    this.setState({
-      value: event.target.value,
-    })
-  };
-
   handleSubmit = (event) => {
     event.preventDefault();
-    const newTodos = [...this.state.todos, { title: this.state.value }];
+    const newTodos = [...this.state.todos, {
+      title: this.state.todoTitle,
+      description: this.state.todoDescription,
+    }];
     this.setState({
       value: '',
       todos: newTodos
     });
   };
+
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
 
   componentDidMount() {
     console.log('component did mount');
@@ -62,18 +69,23 @@ class App extends React.Component {
   };
 
   render() {
-    const { todos, value } = this.state;
+    const { todos, todoTitle, todoDescription } = this.state;
 
     return (
       <Layout>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" onChange={this.handleChange} value={value} />
+          <input type="text" name="todoTitle" onChange={this.handleInputChange} value={todoTitle} placeholder="Enter task title" />
+
+          <textarea type="text" name="todoDescription" onChange={this.handleInputChange} value={todoDescription} />
+
           <input type="submit" value="Submit" />
         </form>
         <ul>
           {todos.map((todo, index) => (
             <li key={index}>
               {todo.title}
+              <br />
+              {todo.description}
             </li>
           ))}
         </ul>
