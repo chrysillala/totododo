@@ -1,19 +1,21 @@
 import React from 'react';
 import './App.css';
 import Layout from './components/Layout';
+
+const initialTodo = {
+  title: '',
+  description: '',
+  isCompleted: false,
+  priority: 0,
+  dueDate: ''
+};
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
       priorities: ['Low', 'Medium', 'High'],
-      initialTodo: {
-        title: '',
-        description: '',
-        isCompleted: false,
-        priority: 0,
-        dueDate: ''
-      },
+      todoForm: initialTodo,
       todos: [
         {
           id: 1,
@@ -41,11 +43,11 @@ class App extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const newTodos = [...this.state.todos, {
-      title: this.state.todoTitle,
-      description: this.state.todoDescription,
+      title: this.state.todoForm.title,
+      description: this.state.todoForm.description,
     }];
     this.setState({
-      value: '',
+      todoForm: initialTodo,
       todos: newTodos
     });
   };
@@ -55,9 +57,12 @@ class App extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
-    this.setState({
-      [name]: value
-    });
+    this.setState(prevState => ({
+      todoForm: {
+        ...prevState.todoForm,
+        [name]: value
+      }
+    }));
   }
 
   componentDidMount() {
@@ -69,14 +74,14 @@ class App extends React.Component {
   };
 
   render() {
-    const { todos, todoTitle, todoDescription } = this.state;
+    const { todos, todoForm } = this.state;
 
     return (
       <Layout>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" name="todoTitle" onChange={this.handleInputChange} value={todoTitle} placeholder="Enter task title" />
+          <input type="text" name="title" onChange={this.handleInputChange} value={todoForm.title} placeholder="Enter task title" />
 
-          <textarea type="text" name="todoDescription" onChange={this.handleInputChange} value={todoDescription} />
+          <textarea type="text" name="description" onChange={this.handleInputChange} value={todoForm.description} placeholder="Enter task description" />
 
           <input type="submit" value="Submit" />
         </form>
