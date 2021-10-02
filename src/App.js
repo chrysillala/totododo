@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Layout from './components/Layout';
 
 const initialTodo = {
@@ -23,7 +22,7 @@ class App extends React.Component {
           description: 'Lorem ipsum dolor sit amet.',
           isCompleted: false,
           priority: 0,
-          dueDate: Date.now()
+          dueDate: (new Date(Date.now() + 86400000 * 5))
         },
         {
           id: 2,
@@ -31,7 +30,7 @@ class App extends React.Component {
           description: 'Lorem ipsum dolor sit amet.',
           isCompleted: true,
           priority: 2,
-          dueDate: Date.now()
+          dueDate: (new Date(Date.now() + 86400000 * 3))
         },
       ],
     };
@@ -46,6 +45,7 @@ class App extends React.Component {
       title: this.state.todoForm.title,
       description: this.state.todoForm.description,
       priority: this.state.todoForm.priority,
+      dueDate: this.state.todoForm.dueDate,
     }];
     this.setState({
       todoForm: initialTodo,
@@ -55,8 +55,20 @@ class App extends React.Component {
 
   handleInputChange = (event) => {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
+    let value;
+
+    switch (value) {
+      case 'checkbox':
+        value = target.checked;
+        break;
+      case 'date':
+        value = (new Date(target.value));
+        break;
+      default:
+        value = target.value
+        break;
+    }
 
     this.setState(prevState => ({
       todoForm: {
@@ -88,6 +100,8 @@ class App extends React.Component {
             ))}
           </select>
 
+          <input type="date" name="dueDate" onChange={this.handleInputChange} value={todoForm.dueDate} />
+
           <textarea type="text" name="description" onChange={this.handleInputChange} value={todoForm.description} placeholder="Enter task description" />
 
           <input type="submit" value="Submit" />
@@ -95,7 +109,7 @@ class App extends React.Component {
         <ul>
           {todos.map((todo, index) => (
             <li key={index}>
-              {todo.title} - {priorities[todo.priority]}
+              {todo.title} - {priorities[todo.priority]} - {(new Date(todo.dueDate)).toLocaleDateString()}
               <br />
               {todo.description}
             </li>
