@@ -1,7 +1,11 @@
 import React from 'react';
+
+import { v4 as uuidv4 } from 'uuid';
+
 import Layout from './components/Layout';
 
 const initialTodo = {
+  id: uuidv4(),
   title: '',
   description: '',
   isCompleted: false,
@@ -15,24 +19,7 @@ class App extends React.Component {
       isLoading: false,
       priorities: ['Low', 'Medium', 'High'],
       todoForm: initialTodo,
-      todos: [
-        {
-          id: 1,
-          title: 'hello 1',
-          description: 'Lorem ipsum dolor sit amet.',
-          isCompleted: false,
-          priority: 0,
-          dueDate: (new Date(Date.now() + 86400000 * 5))
-        },
-        {
-          id: 2,
-          title: 'hello 2',
-          description: 'Lorem ipsum dolor sit amet.',
-          isCompleted: true,
-          priority: 2,
-          dueDate: (new Date(Date.now() + 86400000 * 3))
-        },
-      ],
+      todos: [],
     };
   };
 
@@ -42,6 +29,7 @@ class App extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const newTodos = [...this.state.todos, {
+      id: this.state.todoForm.id,
       title: this.state.todoForm.title,
       description: this.state.todoForm.description,
       priority: this.state.todoForm.priority,
@@ -109,7 +97,7 @@ class App extends React.Component {
         <ul>
           {todos.map((todo, index) => (
             <li key={index}>
-              {todo.title} - {priorities[todo.priority]} - {(new Date(todo.dueDate)).toLocaleDateString()}
+              {todo.id} - {todo.title} - {priorities[todo.priority]} - {(new Date(todo.dueDate)).toLocaleDateString()}
               <br />
               {todo.description}
             </li>
