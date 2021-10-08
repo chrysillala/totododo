@@ -77,6 +77,13 @@ class App extends React.Component {
     }));
   }
 
+  handleRemoveTodo = (todoId) => {
+    this.setState(prevState => ({
+      ...prevState,
+      todos: prevState.todos.filter(({ id }) => id !== todoId),
+    }))
+  }
+
   componentDidMount() {
     console.log('component did mount');
   };
@@ -115,6 +122,8 @@ class App extends React.Component {
               {todo.title} - {priorities[todo.priority]} - {(new Date(todo.dueDate)).toLocaleDateString()}
               <br />
               {todo.description}
+              <br />
+              <button onClick={() => this.handleRemoveTodo(todo.id)}>Delete</button>
             </li>
           ))}
         </ul>
