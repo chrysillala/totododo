@@ -1,16 +1,19 @@
 import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
+import DatePicker from "react-datepicker";
 
 import Layout from './components/Layout';
 
+import "react-datepicker/dist/react-datepicker.css";
+
 const initialTodo = {
-  id: uuidv4(),
+  id: '',
   title: '',
   description: '',
   isCompleted: false,
   priority: 0,
-  dueDate: ''
+  dueDate: new Date(),
 };
 class App extends React.Component {
   constructor(props) {
@@ -28,13 +31,15 @@ class App extends React.Component {
   // resulting in cleaner code
   handleSubmit = (event) => {
     event.preventDefault();
+
     const newTodos = [...this.state.todos, {
-      id: this.state.todoForm.id,
+      id: uuidv4(),
       title: this.state.todoForm.title,
       description: this.state.todoForm.description,
       priority: this.state.todoForm.priority,
       dueDate: this.state.todoForm.dueDate,
     }];
+
     this.setState({
       todoForm: initialTodo,
       todos: newTodos
@@ -50,9 +55,6 @@ class App extends React.Component {
       case 'checkbox':
         value = target.checked;
         break;
-      case 'date':
-        value = (new Date(target.value));
-        break;
       default:
         value = target.value
         break;
@@ -62,6 +64,15 @@ class App extends React.Component {
       todoForm: {
         ...prevState.todoForm,
         [name]: value
+      }
+    }));
+  }
+
+  handleDateChange = (date) => {
+    this.setState(prevState => ({
+      todoForm: {
+        ...prevState.todoForm,
+        dueDate: new Date(date)
       }
     }));
   }
@@ -88,16 +99,20 @@ class App extends React.Component {
             ))}
           </select>
 
-          <input type="date" name="dueDate" onChange={this.handleInputChange} value={todoForm.dueDate} />
+          <DatePicker
+            selected={todoForm.dueDate}
+            minDate={(new Date())}
+            onChange={(date) => this.handleDateChange(date)}
+          />
 
           <textarea type="text" name="description" onChange={this.handleInputChange} value={todoForm.description} placeholder="Enter task description" />
 
           <input type="submit" value="Submit" />
         </form>
         <ul>
-          {todos.map((todo, index) => (
-            <li key={index}>
-              {todo.id} - {todo.title} - {priorities[todo.priority]} - {(new Date(todo.dueDate)).toLocaleDateString()}
+          {todos.map((todo) => (
+            <li key={todo.id}>
+              {todo.title} - {priorities[todo.priority]} - {(new Date(todo.dueDate)).toLocaleDateString()}
               <br />
               {todo.description}
             </li>
