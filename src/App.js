@@ -21,6 +21,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       searchQuery: '',
+      sortBy: 'dueDate',
       isLoading: false,
       priorities: ['Low', 'Medium', 'High'],
       todoForm: initialTodo,
@@ -116,12 +117,17 @@ class App extends React.Component {
   };
 
   render() {
-    const { todos, todoForm, priorities, searchQuery } = this.state;
+    const { todos, todoForm, priorities, searchQuery, sortBy } = this.state;
 
     const filteredTodos = todos.filter(todo => {
       return todo.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         todo.description.toLowerCase().includes(searchQuery.toLowerCase());
-    })
+    }).sort((a, b) =>
+      // sort order ascending
+      sortBy === 'dueDate'
+        ? new Date(a.dueDate) - new Date(b.dueDate)
+        : a.priority - b.priority
+    );
 
     return (
       <Layout>
@@ -145,9 +151,9 @@ class App extends React.Component {
           <input type="submit" value="Submit" />
         </form>
         <div>
-          <select name="sort" id="sort-by">
+          <select name="sort" id="sort-by" onChange={event => this.setState({ sortBy: event.target.value })}>
             <option disabled>Sort By:</option>
-            <option value="due-date">Due Date</option>
+            <option value="dueDate">Due Date</option>
             <option value="priority">Priority</option>
           </select>
           <input
