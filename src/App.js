@@ -81,7 +81,21 @@ class App extends React.Component {
     this.setState(prevState => ({
       ...prevState,
       todos: prevState.todos.filter(({ id }) => id !== todoId),
-    }))
+    }));
+  }
+
+  handleCompleteTodo = (todoId) => {
+    this.setState(prevState => ({
+      ...prevState,
+      todos: this.state.todos.map(todo => {
+        if (todo.id === todoId) {
+          todo.isCompleted = true;
+          return todo;
+        }
+        return todo;
+      })
+
+    }));
   }
 
   componentDidMount() {
@@ -119,10 +133,16 @@ class App extends React.Component {
         <ul>
           {todos.map((todo) => (
             <li key={todo.id}>
-              {todo.title} - {priorities[todo.priority]} - {(new Date(todo.dueDate)).toLocaleDateString()}
+              <p style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}>
+                {todo.title}
+              </p>
+              {priorities[todo.priority]} - {(new Date(todo.dueDate)).toLocaleDateString()}
               <br />
               {todo.description}
               <br />
+              {!todo.isCompleted &&
+                <button onClick={() => this.handleCompleteTodo(todo.id)}>Complete</button>
+              }
               <button onClick={() => this.handleRemoveTodo(todo.id)}>Delete</button>
             </li>
           ))}
