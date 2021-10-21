@@ -20,6 +20,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchQuery: '',
       isLoading: false,
       priorities: ['Low', 'Medium', 'High'],
       todoForm: initialTodo,
@@ -99,6 +100,13 @@ class App extends React.Component {
     }));
   }
 
+  handleSearch = (searchQuery) => {
+    this.setState(prevState => ({
+      ...prevState,
+      searchQuery
+    }))
+  }
+
   componentDidMount() {
     console.log('component did mount');
   };
@@ -108,7 +116,12 @@ class App extends React.Component {
   };
 
   render() {
-    const { todos, todoForm, priorities } = this.state;
+    const { todos, todoForm, priorities, searchQuery } = this.state;
+
+    const filteredTodos = todos.filter(todo => {
+      return todo.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        todo.description.toLowerCase().includes(searchQuery.toLowerCase());
+    })
 
     return (
       <Layout>
@@ -137,10 +150,15 @@ class App extends React.Component {
             <option value="due-date">Due Date</option>
             <option value="priority">Priority</option>
           </select>
-          <input type="text" name="search" />
+          <input
+            type="text"
+            name="searchQuery"
+            onChange={(event) => this.handleSearch(event.target.value)}
+            value={searchQuery}
+          />
         </div>
         <TodoList
-          todos={todos}
+          todos={filteredTodos}
           priorities={priorities}
           onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
           onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
