@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import DatePicker from "react-datepicker";
 
 import Layout from './components/Layout';
+import TodoList from './components/TodoList';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -130,23 +131,20 @@ class App extends React.Component {
 
           <input type="submit" value="Submit" />
         </form>
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id}>
-              <p style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}>
-                {todo.title}
-              </p>
-              {priorities[todo.priority]} - {(new Date(todo.dueDate)).toLocaleDateString()}
-              <br />
-              {todo.description}
-              <br />
-              {!todo.isCompleted &&
-                <button onClick={() => this.handleCompleteTodo(todo.id)}>Complete</button>
-              }
-              <button onClick={() => this.handleRemoveTodo(todo.id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <select name="sort" id="sort-by">
+            <option disabled>Sort By:</option>
+            <option value="due-date">Due Date</option>
+            <option value="priority">Priority</option>
+          </select>
+          <input type="text" name="search" />
+        </div>
+        <TodoList
+          todos={todos}
+          priorities={priorities}
+          onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+          onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+        />
       </Layout>
     );
   }
