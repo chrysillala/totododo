@@ -1,24 +1,13 @@
 import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
-
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import styled from 'styled-components';
 
 import Layout from './components/Layout';
+import TodoForm from './components/TodoForm';
 import TodoContainer from './components/TodoContainer';
 import TodoList from './components/TodoList';
 
-
-const initialTodo = {
-  id: '',
-  title: '',
-  description: '',
-  isCompleted: false,
-  priority: 1,
-  dueDate: new Date(),
-};
 
 const AppTitle = styled.h1`
   font-size: 3rem;
@@ -43,62 +32,14 @@ class App extends React.Component {
       sortBy: 'dueDate',
       isLoading: false,
       priorities: ['Low', 'Medium', 'High'],
-      todoForm: initialTodo,
       todos: [],
+      // todoForm: initialTodo,
     };
   };
 
   // because we are using arrow fn here
   // so no need to bind the function
   // resulting in cleaner code
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    const newTodos = [...this.state.todos, {
-      id: uuidv4(),
-      title: this.state.todoForm.title,
-      description: this.state.todoForm.description,
-      priority: this.state.todoForm.priority,
-      dueDate: this.state.todoForm.dueDate,
-      isCompleted: false
-    }];
-
-    this.setState({
-      todoForm: initialTodo,
-      todos: newTodos
-    });
-  };
-
-  handleInputChange = (event) => {
-    const target = event.target;
-    const name = target.name;
-    let value;
-
-    switch (value) {
-      case 'checkbox':
-        value = target.checked;
-        break;
-      default:
-        value = target.value
-        break;
-    }
-
-    this.setState(prevState => ({
-      todoForm: {
-        ...prevState.todoForm,
-        [name]: value
-      }
-    }));
-  }
-
-  handleDateChange = (date) => {
-    this.setState(prevState => ({
-      todoForm: {
-        ...prevState.todoForm,
-        dueDate: new Date(date)
-      }
-    }));
-  }
 
   handleRemoveTodo = (todoId) => {
     this.setState(prevState => ({
@@ -137,7 +78,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { todos, todoForm, priorities, searchQuery, sortBy } = this.state;
+    const { todos, priorities, searchQuery, sortBy } = this.state;
 
     const completedTodos = todos.filter(({ isCompleted }) => isCompleted !== false);
 
@@ -158,26 +99,10 @@ class App extends React.Component {
         <TodoContainer>
           <FormWrapper>
             <AppTitle>Todo-list</AppTitle>
-            <form onSubmit={this.handleSubmit}>
-              <input type="text" name="title" onChange={this.handleInputChange} value={todoForm.title} placeholder="Enter task title" />
-
-              <select name="priority" onChange={this.handleInputChange} value={todoForm.priority}>
-                {priorities.map((priority, index) => (
-                  <option key={priority} value={index}>{priority}</option>
-                ))}
-              </select>
-
-              <DatePicker
-                selected={todoForm.dueDate}
-                minDate={(new Date())}
-                onChange={(date) => this.handleDateChange(date)}
-              />
-
-              <textarea type="text" name="description" onChange={this.handleInputChange} value={todoForm.description} placeholder="Enter task description" />
-
-              <input type="button" value="Cancel" onClick={() => this.setState({ ...todoForm, todoForm: initialTodo, todos })} />
-              <input type="submit" value="Submit" />
-            </form>
+            <TodoForm
+              priorities={priorities}
+              onSubmitTodo={newTodo => this.setState({ todos: [...todos, newTodo] })}
+            />
           </FormWrapper>
           <ListWrapper>
             <div>
