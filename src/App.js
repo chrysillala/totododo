@@ -148,6 +148,7 @@ class App extends React.Component {
 
           <textarea type="text" name="description" onChange={this.handleInputChange} value={todoForm.description} placeholder="Enter task description" />
 
+          <input type="button" value="Cancel" onClick={() => this.setState({ ...todoForm, todoForm: initialTodo, todos })} />
           <input type="submit" value="Submit" />
         </form>
         <div>
