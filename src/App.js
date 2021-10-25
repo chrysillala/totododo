@@ -33,7 +33,6 @@ class App extends React.Component {
       isLoading: false,
       priorities: ['Low', 'Medium', 'High'],
       todos: [],
-      // todoForm: initialTodo,
     };
   };
 
