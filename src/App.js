@@ -1,12 +1,15 @@
 import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
+
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import styled from 'styled-components';
 
 import Layout from './components/Layout';
+import TodoContainer from './components/TodoContainer';
 import TodoList from './components/TodoList';
 
-import "react-datepicker/dist/react-datepicker.css";
 
 const initialTodo = {
   id: '',
