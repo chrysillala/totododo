@@ -20,8 +20,20 @@ const initialTodo = {
   dueDate: new Date(),
 };
 
-const Title = styled.h1`
+const AppTitle = styled.h1`
   font-size: 3rem;
+  color: white;
+  text-align: center;
+`
+
+const ListWrapper = styled.div`
+  background-color: white;
+  padding: 18px;
+  overflow-y: scroll;
+`
+
+const FormWrapper = styled.div`
+  padding: 18px;
 `
 class App extends React.Component {
   constructor(props) {
@@ -144,8 +156,8 @@ class App extends React.Component {
     return (
       <Layout>
         <TodoContainer>
-          <div>
-            <Title>Todo-list</Title>
+          <FormWrapper>
+            <AppTitle>Todo-list</AppTitle>
             <form onSubmit={this.handleSubmit}>
               <input type="text" name="title" onChange={this.handleInputChange} value={todoForm.title} placeholder="Enter task title" />
 
@@ -166,8 +178,8 @@ class App extends React.Component {
               <input type="button" value="Cancel" onClick={() => this.setState({ ...todoForm, todoForm: initialTodo, todos })} />
               <input type="submit" value="Submit" />
             </form>
-          </div>
-          <div>
+          </FormWrapper>
+          <ListWrapper>
             <div>
               <select name="sort" id="sort-by" onChange={event => this.setState({ sortBy: event.target.value })}>
                 <option disabled>Sort By:</option>
@@ -194,6 +206,7 @@ class App extends React.Component {
               onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
               onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
             />
+          </ListWrapper>
         </TodoContainer>
       </Layout>
     );

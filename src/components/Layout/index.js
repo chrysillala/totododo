@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
 const StyledLayout = styled.main`
-  max-width: 750px;
-  margin 0 auto;
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  background-color: #393e6f;
 `
 
 const Layout = ({ children }) => (
