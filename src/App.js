@@ -48,6 +48,7 @@ class App extends React.Component {
       description: this.state.todoForm.description,
       priority: this.state.todoForm.priority,
       dueDate: this.state.todoForm.dueDate,
+      isCompleted: false
     }];
 
     this.setState({
@@ -126,9 +127,13 @@ class App extends React.Component {
   render() {
     const { todos, todoForm, priorities, searchQuery, sortBy } = this.state;
 
+    const completedTodos = todos.filter(({ isCompleted }) => isCompleted !== false);
+
     const filteredTodos = todos.filter(todo => {
-      return todo.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        todo.description.toLowerCase().includes(searchQuery.toLowerCase());
+      return !todo.isCompleted && (
+        todo.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        todo.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     }).sort((a, b) =>
       // sort order ascending
       sortBy === 'dueDate'
@@ -182,7 +187,13 @@ class App extends React.Component {
               onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
               onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
             />
-          </div>
+            <p>Archive Task</p>
+            <TodoList
+              todos={completedTodos}
+              priorities={priorities}
+              onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+              onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+            />
         </TodoContainer>
       </Layout>
     );
