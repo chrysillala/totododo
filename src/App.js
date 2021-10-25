@@ -16,6 +16,10 @@ const initialTodo = {
   priority: 1,
   dueDate: new Date(),
 };
+
+const Title = styled.h1`
+  font-size: 3rem;
+`
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -131,45 +135,52 @@ class App extends React.Component {
 
     return (
       <Layout>
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" name="title" onChange={this.handleInputChange} value={todoForm.title} placeholder="Enter task title" />
+        <TodoContainer>
+          <div>
+            <Title>Todo-list</Title>
+            <form onSubmit={this.handleSubmit}>
+              <input type="text" name="title" onChange={this.handleInputChange} value={todoForm.title} placeholder="Enter task title" />
 
-          <select name="priority" onChange={this.handleInputChange} value={todoForm.priority}>
-            {priorities.map((priority, index) => (
-              <option key={priority} value={index}>{priority}</option>
-            ))}
-          </select>
+              <select name="priority" onChange={this.handleInputChange} value={todoForm.priority}>
+                {priorities.map((priority, index) => (
+                  <option key={priority} value={index}>{priority}</option>
+                ))}
+              </select>
 
-          <DatePicker
-            selected={todoForm.dueDate}
-            minDate={(new Date())}
-            onChange={(date) => this.handleDateChange(date)}
-          />
+              <DatePicker
+                selected={todoForm.dueDate}
+                minDate={(new Date())}
+                onChange={(date) => this.handleDateChange(date)}
+              />
 
-          <textarea type="text" name="description" onChange={this.handleInputChange} value={todoForm.description} placeholder="Enter task description" />
+              <textarea type="text" name="description" onChange={this.handleInputChange} value={todoForm.description} placeholder="Enter task description" />
 
-          <input type="button" value="Cancel" onClick={() => this.setState({ ...todoForm, todoForm: initialTodo, todos })} />
-          <input type="submit" value="Submit" />
-        </form>
-        <div>
-          <select name="sort" id="sort-by" onChange={event => this.setState({ sortBy: event.target.value })}>
-            <option disabled>Sort By:</option>
-            <option value="dueDate">Due Date</option>
-            <option value="priority">Priority</option>
-          </select>
-          <input
-            type="text"
-            name="searchQuery"
-            onChange={(event) => this.handleSearch(event.target.value)}
-            value={searchQuery}
-          />
-        </div>
-        <TodoList
-          todos={filteredTodos}
-          priorities={priorities}
-          onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
-          onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
-        />
+              <input type="button" value="Cancel" onClick={() => this.setState({ ...todoForm, todoForm: initialTodo, todos })} />
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+          <div>
+            <div>
+              <select name="sort" id="sort-by" onChange={event => this.setState({ sortBy: event.target.value })}>
+                <option disabled>Sort By:</option>
+                <option value="dueDate">Due Date</option>
+                <option value="priority">Priority</option>
+              </select>
+              <input
+                type="text"
+                name="searchQuery"
+                onChange={(event) => this.handleSearch(event.target.value)}
+                value={searchQuery}
+              />
+            </div>
+            <TodoList
+              todos={filteredTodos}
+              priorities={priorities}
+              onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+              onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+            />
+          </div>
+        </TodoContainer>
       </Layout>
     );
   }
