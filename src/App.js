@@ -13,7 +13,7 @@ const initialTodo = {
   title: '',
   description: '',
   isCompleted: false,
-  priority: 0,
+  priority: 1,
   dueDate: new Date(),
 };
 class App extends React.Component {
