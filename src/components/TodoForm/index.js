@@ -14,6 +14,11 @@ const initialTodo = {
   dueDate: new Date(),
 };
 
+const errorMessage = {
+  titleError: '',
+  descriptionError: '',
+}
+
 const StyledTodoForm = styled.form`
   display: grid;
 `
@@ -24,8 +29,39 @@ class TodoForm extends React.Component {
     super(props);
     this.state = {
       todoForm: initialTodo,
+      errorMessage
     };
   };
+
+  validate = () => {
+    let titleError = '';
+    let descriptionError = '';
+
+    if (!this.state.todoForm.title) {
+      titleError = 'Title cannot be blank';
+    }
+
+    if (this.state.todoForm.title.length > 100) {
+      titleError = 'Maximum character for title is 100 characters';
+    }
+
+    if (this.state.todoForm.description.length > 255) {
+      descriptionError = 'Maximum character for description is 255 characters'
+    }
+
+    if (titleError || descriptionError) {
+      this.setState(prevState => ({
+        errorMessage: {
+          ...prevState.errorMessage,
+          titleError,
+          descriptionError
+        }
+      }));
+      return false;
+    }
+
+    return true;
+  }
 
   handleInputChange = (event) => {
     const target = event.target;
@@ -61,6 +97,7 @@ class TodoForm extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
+    let isValid = this.validate();
     const newTodo = {
       id: uuidv4(),
       title: this.state.todoForm.title,
@@ -70,21 +107,28 @@ class TodoForm extends React.Component {
       isCompleted: false
     };
 
-    this.props.onSubmitTodo(newTodo);
+    if (isValid) {
+      // send the new todo to parent component, which is called lifting state up
+      this.props.onSubmitTodo(newTodo);
 
-    this.setState({
-      todoForm: initialTodo
-    });
+      // clear form
+      this.setState({
+        todoForm: initialTodo
+      });
+    }
+
   };
 
   render() {
     const { priorities } = this.props;
-    const { todoForm } = this.state;
+    const { todoForm, errorMessage } = this.state;
 
     return (
       <StyledTodoForm onSubmit={event => this.handleSubmit(event)}>
         <div>
           <input type="text" name="title" onChange={event => this.handleInputChange(event)} value={todoForm.title} placeholder="Enter task title" />
+          {errorMessage.titleError &&
+            <p style={{ color: 'red' }}>{errorMessage.titleError}</p>}
         </div>
 
         <div>
@@ -103,6 +147,8 @@ class TodoForm extends React.Component {
 
         <div>
           <textarea type="text" name="description" onChange={event => this.handleInputChange(event)} value={todoForm.description} placeholder="Enter task description" />
+          {errorMessage.descriptionError &&
+            <p style={{ color: 'red' }}>{errorMessage.descriptionError}</p>}
         </div>
 
         <div>
