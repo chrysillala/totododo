@@ -9,10 +9,14 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
   :root {
     box-sizing: border-box;
+    --primary: #FFD717;
+    --secondary: #0D63A5;
+    --form-background: #083358;
+    --app-background: #393E6F;
   }
 
   body {
-    background-color: #393e6f;
+    background-color: var(--app-background);
   }
 `
 
