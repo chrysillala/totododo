@@ -1,8 +1,17 @@
+import styled from 'styled-components';
 import TodoListItem from './TodoListItem';
 
+const StyledTodoList = styled.ul`
+  list-style-type: none;
+  padding: 16px 0 0 0;
+  margin: 0;
+`
+
 const TodoList = ({ todos, priorities, onHandleCompleteTodo, onHandleRemoveTodo }) => {
-  return todos.length
-    ? (<ul>
+  const EmptyTodo = <div>No Todo</div>;
+
+  const TodoListContent = (
+    <StyledTodoList>
       {todos.map((todo) => (
         <TodoListItem
           key={todo.id}
@@ -12,8 +21,10 @@ const TodoList = ({ todos, priorities, onHandleCompleteTodo, onHandleRemoveTodo 
           onHandleRemoveTodo={onHandleRemoveTodo}
         />
       ))}
-    </ul>)
-    : (<p>no todo</p>)
+    </StyledTodoList>
+  )
+
+  return todos.length ? TodoListContent : EmptyTodo;
 };
 
 export default TodoList;
