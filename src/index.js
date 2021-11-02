@@ -13,6 +13,11 @@ const GlobalStyle = createGlobalStyle`
     --secondary: #0D63A5;
     --form-background: #083358;
     --app-background: #393E6F;
+    --white: #ffffff;
+    --black: #001f3f;
+    --light-gray: #808080;
+    --gray: #6b6b6b;
+    --red: #ff1717;
   }
 
   body {
