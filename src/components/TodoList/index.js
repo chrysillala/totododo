@@ -3,7 +3,7 @@ import TodoListItem from './TodoListItem';
 
 const StyledTodoList = styled.ul`
   list-style-type: none;
-  padding: 16px 0 0 0;
+  padding: 16px 0;
   margin: 0;
 `
 
