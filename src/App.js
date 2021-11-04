@@ -1,29 +1,14 @@
 import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
-import styled from 'styled-components';
 
 import Layout from './components/Layout';
 import TodoForm from './components/TodoForm';
 import TodoContainer from './components/TodoContainer';
 import TodoList from './components/TodoList';
 
+import { AppTitle, ListWrapper, FormWrapper } from './App.styled'
 
-const AppTitle = styled.h1`
-  font-size: 3rem;
-  color: white;
-  text-align: center;
-`
-
-const ListWrapper = styled.div`
-  background-color: white;
-  padding: 18px;
-  overflow-y: scroll;
-`
-
-const FormWrapper = styled.div`
-  padding: 18px;
-`
 class App extends React.Component {
   constructor(props) {
     super(props);
