@@ -41,15 +41,19 @@ class App extends React.Component {
   // resulting in cleaner code
 
   handleRemoveTodo = (todoId) => {
-    this.setState(prevState => ({
-      ...prevState,
-      todos: prevState.todos.filter(({ id }) => id !== todoId),
-    }));
+    const newTodos = {
+      ...this.state,
+      todos: this.state.todos.filter(({ id }) => id !== todoId)
+    };
+
+    this.setState(newTodos)
+
+    localStorage.setItem('todos', JSON.stringify(newTodos.todos));
   }
 
   handleCompleteTodo = (todoId) => {
-    this.setState(prevState => ({
-      ...prevState,
+    const newTodos = {
+      ...this.state,
       todos: this.state.todos.map(todo => {
         if (todo.id === todoId) {
           todo.isCompleted = true;
@@ -57,8 +61,19 @@ class App extends React.Component {
         }
         return todo;
       })
+    };
 
-    }));
+    this.setState(newTodos);
+
+    localStorage.setItem('todos', JSON.stringify(newTodos.todos));
+  }
+
+  handleSubmitTodo = (newTodo) => {
+    const newTodos = [...this.state.todos, newTodo];
+    this.setState({
+      todos: newTodos
+    });
+    localStorage.setItem('todos', JSON.stringify(newTodos));
   }
 
   handleSearch = (searchQuery) => {
@@ -69,7 +84,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log('component did mount');
+    const LocalStorageTodos = JSON.parse(localStorage.getItem('todos')) || [];
+
+    this.setState({ todos: LocalStorageTodos });
   };
 
   componentWillUnmount() {
@@ -100,7 +117,7 @@ class App extends React.Component {
             <AppTitle>Todo-list</AppTitle>
             <TodoForm
               priorities={priorities}
-              onSubmitTodo={newTodo => this.setState({ todos: [...todos, newTodo] })}
+              onSubmitTodo={newTodo => this.handleSubmitTodo(newTodo)}
             />
           </FormWrapper>
           <ListWrapper>
