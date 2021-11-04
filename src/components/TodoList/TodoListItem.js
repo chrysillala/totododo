@@ -1,66 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 
-const TodoItemWrapper = styled.li`
-  border: 1px solid var(--secondary);
-  border-radius: 8px;
-  margin-bottom: 16px;
-  position: relative;
+import { BsCheckCircleFill, BsCircle, BsXLg } from 'react-icons/bs';
+import { GoKebabHorizontal } from 'react-icons/go';
 
-  > div {
-    display: flex;
-    align-items: center;
-  }
-`;
-
-const TodoCheckbox = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 20px 13px;
-`;
-
-const TodoItemContent = styled.div`
-  display: flex;
-`
-
-const TodoTitle = styled.p`
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--black);
-  margin: 0 0 4px 0;
-`;
-
-const TodoDate = styled.span`
-  font-size: 10px;
-  color: var(--light-gray);
-`
-
-const TodoPriorityPill = styled.span`
-  background-color: var(--secondary);
-  padding: 3px 15px;
-  color: var(--white);
-  font-size: 8px;
-  border-radius: 16px;
-`;
-
-const TodoDescription = styled.div`
-  font-size: 12px;
-  color: var(--gray);
-  padding: 13px;
-  border-top: 1px solid var(--secondary);
-`;
-
-const TodoDropdown = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: white;
-  padding: 10px;
-  border: 1px solid var(--light-gray);
-  border-radius: 6px;
-  display: flex;
-  flex-flow: column wrap;
-`;
+import { TodoItemWrapper, TodoInfoWrapper, TodoIcon, TodoItemContent, TodoTitle, TodoDate, TodoPriorityPill, TodoDropdown, TodoDescriptionWrapper } from './TodoListItem.styled';
 class TodoListItem extends React.Component {
   constructor(props) {
     super(props);
@@ -76,29 +19,36 @@ class TodoListItem extends React.Component {
 
     return (
       <TodoItemWrapper>
-        <div>
-          <TodoCheckbox onClick={() => onHandleCompleteTodo(todo.id)}>{todo.isCompleted ? "v" : "x"}</TodoCheckbox>
+        <TodoInfoWrapper>
+          <TodoIcon onClick={() => onHandleCompleteTodo(todo.id)}>{todo.isCompleted ? <BsCheckCircleFill /> : <BsCircle />}</TodoIcon>
           <TodoItemContent>
-            <div>
-              <TodoTitle>{todo.title}</TodoTitle>
-              <TodoDate>{(new Date(todo.dueDate)).toLocaleDateString()}</TodoDate>{' '}
-              <TodoPriorityPill>{priorities[todo.priority]}</TodoPriorityPill>
-            </div>
-            <button onClick={() => this.setState({ isDropdownOpen: !isDropdownOpen })}>...</button>
+            <TodoTitle>{todo.title}</TodoTitle>
+            <TodoDate>{(new Date(todo.dueDate)).toLocaleDateString()}</TodoDate>{' '}
+            <TodoPriorityPill>{priorities[todo.priority]}</TodoPriorityPill>
           </TodoItemContent>
+          <TodoIcon>
+            <GoKebabHorizontal onClick={() => this.setState({ isDropdownOpen: !isDropdownOpen })} />
+          </TodoIcon>
           {isDropdownOpen &&
             <TodoDropdown>
-              {!todo.isCompleted &&
-                <button onClick={() => this.setState({ isTodoOpen: !isTodoOpen })}>Detail</button>}
-              <button onClick={() => onHandleRemoveTodo(todo.id)}>Delete</button>
+              <button
+                onClick={() => this.setState({ isTodoOpen: !isTodoOpen, isDropdownOpen: false })}>
+                Detail
+              </button>
+              <button
+                onClick={() => onHandleRemoveTodo(todo.id)}>
+                Delete
+              </button>
             </TodoDropdown>
           }
-        </div>
+        </TodoInfoWrapper>
         {isTodoOpen &&
-          <TodoDescription>
+          <TodoDescriptionWrapper>
             <p>{todo.description}</p>
-            <button onClick={() => this.setState({ isTodoOpen: !isTodoOpen })}>X</button>
-          </TodoDescription>
+            <TodoIcon>
+              <BsXLg onClick={() => this.setState({ isTodoOpen: !isTodoOpen })} />
+            </TodoIcon>
+          </TodoDescriptionWrapper>
         }
       </TodoItemWrapper>
     )
