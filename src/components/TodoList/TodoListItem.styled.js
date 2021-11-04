@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+const priorityColors = ['var(--secondary)', 'var(--primary)', 'var(--red)'];
+
 export const TodoItemWrapper = styled.li`
   border: 1px solid var(--secondary);
   border-radius: 8px;
@@ -41,7 +43,7 @@ export const TodoDate = styled.span`
 `
 
 export const TodoPriorityPill = styled.span`
-  background-color: var(--secondary);
+  background-color: ${({ priority }) => priorityColors[priority] || '#000'};
   padding: 3px 15px;
   color: var(--white);
   font-size: 8px;
