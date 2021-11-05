@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Layout from './components/Layout';
 import TodoForm from './components/TodoForm';
+import TodoSearch from './components/TodoSearch';
 import TodoContainer from './components/TodoContainer';
 import TodoList from './components/TodoList';
 
@@ -53,6 +54,10 @@ class App extends React.Component {
     }))
   }
 
+  handleSortChange = (event) => {
+    this.setState({ sortBy: event.target.value })
+  }
+
   componentDidMount() {
     console.log('component did mount');
   };
@@ -89,19 +94,11 @@ class App extends React.Component {
             />
           </FormWrapper>
           <ListWrapper>
-            <div>
-              <select name="sort" id="sort-by" onChange={event => this.setState({ sortBy: event.target.value })}>
-                <option disabled>Sort By:</option>
-                <option value="dueDate">Due Date</option>
-                <option value="priority">Priority</option>
-              </select>
-              <input
-                type="text"
-                name="searchQuery"
-                onChange={(event) => this.handleSearch(event.target.value)}
-                value={searchQuery}
-              />
-            </div>
+            <TodoSearch
+              searchQuery={searchQuery}
+              onHandleSearch={this.handleSearch}
+              onHandleSortChange={this.handleSortChange}
+            />
             <TodoList
               todos={filteredTodos}
               priorities={priorities}
