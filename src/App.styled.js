@@ -8,10 +8,13 @@ export const AppTitle = styled.h1`
 
 export const ListWrapper = styled.div`
   background-color: white;
-  padding: 18px;
   overflow-y: scroll;
 `
 
 export const FormWrapper = styled.div`
   padding: 18px;
+`
+
+export const TodoListContainer = styled.div`
+  padding: 0 16px;
 `

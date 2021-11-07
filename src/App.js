@@ -8,7 +8,7 @@ import TodoSearch from './components/TodoSearch';
 import TodoContainer from './components/TodoContainer';
 import TodoList from './components/TodoList';
 
-import { AppTitle, ListWrapper, FormWrapper } from './App.styled'
+import { AppTitle, ListWrapper, FormWrapper, TodoListContainer } from './App.styled'
 
 class App extends React.Component {
   constructor(props) {
