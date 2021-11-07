@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import styled from 'styled-components';
+
+import { TodoFormWrapper, FormTitleInput, FormPrioritySelect, FormDueDatePicker, FormDescriptionTextarea, FormButtonWrapper, FormSubmitButton, FormCancelButton, FormErrorMessages, FormErrorMessage } from './TodoForm.styled';
 
 const initialTodo = {
   id: '',
@@ -18,11 +18,6 @@ const errorMessage = {
   titleError: '',
   descriptionError: '',
 }
-
-const StyledTodoForm = styled.form`
-  display: grid;
-`
-
 class TodoForm extends React.Component {
 
   constructor(props) {
@@ -124,38 +119,35 @@ class TodoForm extends React.Component {
     const { todoForm, errorMessage } = this.state;
 
     return (
-      <StyledTodoForm onSubmit={event => this.handleSubmit(event)}>
-        <div>
-          <input type="text" name="title" onChange={event => this.handleInputChange(event)} value={todoForm.title} placeholder="Enter task title" />
+      <TodoFormWrapper onSubmit={event => this.handleSubmit(event)}>
+        <FormTitleInput type="text" name="title" onChange={event => this.handleInputChange(event)} value={todoForm.title} placeholder="Enter task title" />
+
+        <FormPrioritySelect name="priority" onChange={event => this.handleInputChange(event)} value={todoForm.priority}>
+          {priorities.map((priority, index) => (
+            <option key={priority} value={index}>{priority}</option>
+          ))}
+        </FormPrioritySelect>
+
+        <FormDueDatePicker
+          selected={todoForm.dueDate}
+          minDate={(new Date())}
+          onChange={(date) => this.handleDateChange(date)}
+        />
+
+        <FormDescriptionTextarea type="text" name="description" onChange={event => this.handleInputChange(event)} value={todoForm.description} placeholder="Enter task description" />
+
+        <FormErrorMessages>
           {errorMessage.titleError &&
-            <p style={{ color: 'red' }}>{errorMessage.titleError}</p>}
-        </div>
-
-        <div>
-          <select name="priority" onChange={event => this.handleInputChange(event)} value={todoForm.priority}>
-            {priorities.map((priority, index) => (
-              <option key={priority} value={index}>{priority}</option>
-            ))}
-          </select>
-
-          <DatePicker
-            selected={todoForm.dueDate}
-            minDate={(new Date())}
-            onChange={(date) => this.handleDateChange(date)}
-          />
-        </div>
-
-        <div>
-          <textarea type="text" name="description" onChange={event => this.handleInputChange(event)} value={todoForm.description} placeholder="Enter task description" />
+            <FormErrorMessage>{errorMessage.titleError}</FormErrorMessage>}
           {errorMessage.descriptionError &&
-            <p style={{ color: 'red' }}>{errorMessage.descriptionError}</p>}
-        </div>
+            <FormErrorMessage>{errorMessage.descriptionError}</FormErrorMessage>}
+        </FormErrorMessages>
 
-        <div>
-          <input type="button" value="Cancel" onClick={() => this.setState({ ...this.state, todoForm: initialTodo })} />
-          <input type="submit" value="Submit" />
-        </div>
-      </StyledTodoForm>
+        <FormButtonWrapper>
+          <FormSubmitButton type="submit" value="Submit" />
+          <FormCancelButton type="button" value="Cancel" onClick={() => this.setState({ ...this.state, todoForm: initialTodo })} />
+        </FormButtonWrapper>
+      </TodoFormWrapper>
     )
   }
 };

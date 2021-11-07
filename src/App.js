@@ -1,29 +1,15 @@
 import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
-import styled from 'styled-components';
 
 import Layout from './components/Layout';
 import TodoForm from './components/TodoForm';
+import TodoSearch from './components/TodoSearch';
 import TodoContainer from './components/TodoContainer';
 import TodoList from './components/TodoList';
 
+import { AppTitle, ListWrapper, FormWrapper, TodoListContainer } from './App.styled'
 
-const AppTitle = styled.h1`
-  font-size: 3rem;
-  color: white;
-  text-align: center;
-`
-
-const ListWrapper = styled.div`
-  background-color: white;
-  padding: 18px;
-  overflow-y: scroll;
-`
-
-const FormWrapper = styled.div`
-  padding: 18px;
-`
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -83,6 +69,10 @@ class App extends React.Component {
     }))
   }
 
+  handleSortChange = (value) => {
+    this.setState({ sortBy: value })
+  }
+
   componentDidMount() {
     const LocalStorageTodos = JSON.parse(localStorage.getItem('todos')) || [];
 
@@ -121,32 +111,26 @@ class App extends React.Component {
             />
           </FormWrapper>
           <ListWrapper>
-            <div>
-              <select name="sort" id="sort-by" onChange={event => this.setState({ sortBy: event.target.value })}>
-                <option disabled>Sort By:</option>
-                <option value="dueDate">Due Date</option>
-                <option value="priority">Priority</option>
-              </select>
-              <input
-                type="text"
-                name="searchQuery"
-                onChange={(event) => this.handleSearch(event.target.value)}
-                value={searchQuery}
+            <TodoSearch
+              searchQuery={searchQuery}
+              onHandleSearch={this.handleSearch}
+              onHandleSortChange={this.handleSortChange}
+            />
+            <TodoListContainer>
+              <TodoList
+                todos={filteredTodos}
+                priorities={priorities}
+                onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+                onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
               />
-            </div>
-            <TodoList
-              todos={filteredTodos}
-              priorities={priorities}
-              onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
-              onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
-            />
-            <p>Archive Task</p>
-            <TodoList
-              todos={completedTodos}
-              priorities={priorities}
-              onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
-              onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
-            />
+              <p>Archive Task</p>
+              <TodoList
+                todos={completedTodos}
+                priorities={priorities}
+                onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+                onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+              />
+            </TodoListContainer>
           </ListWrapper>
         </TodoContainer>
       </Layout>
