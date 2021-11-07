@@ -54,8 +54,8 @@ class App extends React.Component {
     }))
   }
 
-  handleSortChange = (event) => {
-    this.setState({ sortBy: event.target.value })
+  handleSortChange = (value) => {
+    this.setState({ sortBy: value })
   }
 
   componentDidMount() {
@@ -99,19 +99,21 @@ class App extends React.Component {
               onHandleSearch={this.handleSearch}
               onHandleSortChange={this.handleSortChange}
             />
-            <TodoList
-              todos={filteredTodos}
-              priorities={priorities}
-              onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
-              onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
-            />
-            <p>Archive Task</p>
-            <TodoList
-              todos={completedTodos}
-              priorities={priorities}
-              onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
-              onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
-            />
+            <TodoListContainer>
+              <TodoList
+                todos={filteredTodos}
+                priorities={priorities}
+                onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+                onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+              />
+              <p>Archive Task</p>
+              <TodoList
+                todos={completedTodos}
+                priorities={priorities}
+                onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+                onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+              />
+            </TodoListContainer>
           </ListWrapper>
         </TodoContainer>
       </Layout>
