@@ -30,15 +30,15 @@ class App extends React.Component {
   // resulting in cleaner code
 
   handleRemoveTodo = (todoId) => {
-    this.setState(prevState => ({
-      ...prevState,
-      todos: prevState.todos.filter(({ id }) => id !== todoId),
-    }));
+    this.setState({
+      ...this.state,
+      todos: this.state.todos.filter(({ id }) => id !== todoId),
+    })
   }
 
-  handleCompleteTodo = (todoId) => {
-    this.setState(prevState => ({
-      ...prevState,
+  handleCompleteTodo = async (todoId) => {
+    this.setState({
+      ...this.state,
       todos: this.state.todos.map(todo => {
         if (todo.id === todoId) {
           todo.isCompleted = true;
@@ -46,19 +46,21 @@ class App extends React.Component {
         }
         return todo;
       })
-
-    }));
+    })
   }
 
   handleSearch = (searchQuery) => {
-    this.setState(prevState => ({
-      ...prevState,
+    this.setState({
+      ...this.state,
       searchQuery
-    }))
+    })
   }
 
   handleSortChange = (value) => {
-    this.setState({ sortBy: value })
+    this.setState({
+      ...this.state,
+      sortBy: value
+    })
   }
 
   componentDidMount() {
@@ -68,7 +70,6 @@ class App extends React.Component {
     supabase.auth.onAuthStateChange((_event, session) => {
       this.setState({ session });
     })
-
   };
 
   componentWillUnmount() {
