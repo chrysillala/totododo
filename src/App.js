@@ -37,16 +37,26 @@ class App extends React.Component {
   }
 
   handleCompleteTodo = async (todoId) => {
-    this.setState({
-      ...this.state,
-      todos: this.state.todos.map(todo => {
-        if (todo.id === todoId) {
-          todo.isCompleted = true;
+    const { data: todoData, error } = await supabase
+      .from('todos')
+      .update({ isCompleted: true })
+      .eq("id", todoId)
+      .single();
+
+    if (error) {
+      console.log('error', error)
+    } else {
+      this.setState({
+        ...this.state,
+        todos: this.state.todos.map(todo => {
+          if (todo.id === todoData.id) {
+            todo.isCompleted = todoData.isCompleted;
+            return todo;
+          }
           return todo;
-        }
-        return todo;
+        })
       })
-    })
+    }
   }
 
   handleSearch = (searchQuery) => {
