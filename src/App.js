@@ -63,12 +63,25 @@ class App extends React.Component {
     })
   }
 
+  fetchTodos = async () => {
+    let { data: todos, error } = await supabase
+      .from('todos')
+      .select()
+
+    if (error) {
+      console.log('error', error)
+    } else {
+      this.setState({ todos })
+    }
+  };
+
   componentDidMount() {
     console.log('component did mount');
 
     this.setState({ session: supabase.auth.session() });
     supabase.auth.onAuthStateChange((_event, session) => {
       this.setState({ session });
+      this.fetchTodos();
     })
   };
 
