@@ -18,6 +18,7 @@ export const TodoIcon = styled.div`
   display: flex;
   align-items: center;
   padding: 20px 13px;
+  font-size: ${({ small }) => small ? '12px' : '24px'};
 `;
 
 export const TodoItemContent = styled.div`
@@ -63,8 +64,9 @@ export const TodoDescriptionWrapper = styled.div`
 
 export const TodoDropdown = styled.div`
   position: absolute;
-  top: 35px;
-  right: 0;
+  top: 40px;
+  right: 10px;
+  min-width: 84px;
   background: white;
   padding: 10px;
   border: 1px solid var(--light-gray);
@@ -73,3 +75,13 @@ export const TodoDropdown = styled.div`
   flex-flow: column wrap;
   z-index: 9;
 `;
+
+export const TodoDropdownButton = styled.button`
+  font-size: 12px;
+  color: var(--black);
+  background-color: transparent;
+  border: none;
+  padding: 4px 0;
+  text-align: left;
+  cursor: pointer;
+`
