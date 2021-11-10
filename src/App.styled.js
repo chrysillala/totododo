@@ -12,6 +12,8 @@ export const ListWrapper = styled.div`
 `
 
 export const FormWrapper = styled.div`
+  display: flex;
+  flex-flow: column wrap;
   padding: 18px;
 `
 
