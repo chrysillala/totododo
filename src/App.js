@@ -2,7 +2,7 @@ import React from 'react';
 
 import { supabase } from './lib/supabase/client';
 
-import { SignOutButton } from './components/Account';
+import { UserPanel } from './components/Account';
 import Layout from './components/Layout';
 import TodoForm from './components/TodoForm';
 import TodoSearch from './components/TodoSearch';
@@ -155,7 +155,7 @@ class App extends React.Component {
               priorities={priorities}
               onSubmitTodo={newTodo => this.handleSubmitTodo(newTodo)}
             />
-            <SignOutButton />
+            <UserPanel />
           </FormWrapper>
           <ListWrapper>
             <TodoSearch
@@ -188,7 +188,7 @@ class App extends React.Component {
 
     return (
       <>
-        {!session ? Login : TodoApp}
+        {!session ? <Login /> : TodoApp}
       </>
     );
   }
