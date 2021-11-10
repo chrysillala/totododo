@@ -14,7 +14,7 @@ const TodoList = ({ todos, priorities, onHandleCompleteTodo, onHandleRemoveTodo 
     <StyledTodoList>
       {todos.map((todo) => (
         <TodoListItem
-          key={todo.id}
+          key={todo.todoId}
           todo={todo}
           priorities={priorities}
           onHandleCompleteTodo={onHandleCompleteTodo}

@@ -64,6 +64,18 @@ class App extends React.Component {
     }
   }
 
+  handleSubmitTodo = async (newTodo) => {
+    await supabase
+      .from('todos')
+      .insert([newTodo])
+      .single();
+
+    this.setState({
+      ...this.state,
+      todos: [...this.state.todos, newTodo]
+    })
+  }
+
   handleSearch = (searchQuery) => {
     this.setState({
       ...this.state,
@@ -127,7 +139,7 @@ class App extends React.Component {
           <AppTitle>Todo-list</AppTitle>
           <TodoForm
             priorities={priorities}
-            onSubmitTodo={newTodo => this.setState({ todos: [...todos, newTodo] })}
+            onSubmitTodo={newTodo => this.handleSubmitTodo(newTodo)}
           />
           <SignOutButton />
         </FormWrapper>

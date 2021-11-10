@@ -1,17 +1,21 @@
 import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
+import { supabase } from '../../lib/supabase/client';
 import "react-datepicker/dist/react-datepicker.css";
 
 import { TodoFormWrapper, FormTitleInput, FormPrioritySelect, FormDueDatePicker, FormDescriptionTextarea, FormButtonWrapper, FormSubmitButton, FormCancelButton, FormErrorMessages, FormErrorMessage } from './TodoForm.styled';
 
+const user = supabase.auth.user();
+
 const initialTodo = {
-  id: '',
+  todoId: '',
   title: '',
   description: '',
   isCompleted: false,
   priority: 1,
   dueDate: new Date(),
+  user_id: ''
 };
 
 const errorMessage = {
@@ -89,17 +93,18 @@ class TodoForm extends React.Component {
     }));
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
 
     let isValid = this.validate();
     const newTodo = {
-      id: uuidv4(),
+      todoId: uuidv4(),
       title: this.state.todoForm.title,
       description: this.state.todoForm.description,
       priority: this.state.todoForm.priority,
       dueDate: this.state.todoForm.dueDate,
-      isCompleted: false
+      isCompleted: false,
+      user_id: user.id
     };
 
     if (isValid) {
