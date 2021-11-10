@@ -23,6 +23,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Nunito Sans", sans-serif;
     background-color: var(--app-background);
   }
+
+  img {
+    width: 100%;
+  }
 `
 
 ReactDOM.render(
