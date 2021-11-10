@@ -54,6 +54,7 @@ export const FormSubmitButton = styled.input`
   background: var(--primary);
   border-radius: 50px;
   padding: 13px 44px;
+  cursor: pointer;
 `;
 
 export const FormCancelButton = styled.input`
@@ -61,6 +62,7 @@ export const FormCancelButton = styled.input`
   background: var(--secondary);
   border-radius: 50px;
   padding: 13px 44px;
+  cursor: pointer;
 `;
 
 export const FormErrorMessages = styled.div`

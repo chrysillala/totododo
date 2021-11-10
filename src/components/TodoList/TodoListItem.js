@@ -3,7 +3,7 @@ import React from 'react';
 import { BsCheckCircleFill, BsCircle, BsXLg } from 'react-icons/bs';
 import { GoKebabHorizontal } from 'react-icons/go';
 
-import { TodoItemWrapper, TodoInfoWrapper, TodoIcon, TodoItemContent, TodoTitle, TodoDate, TodoPriorityPill, TodoDropdown, TodoDescriptionWrapper } from './TodoListItem.styled';
+import { TodoItemWrapper, TodoInfoWrapper, TodoIcon, TodoItemContent, TodoTitle, TodoDate, TodoPriorityPill, TodoDropdown, TodoDropdownButton, TodoDescriptionWrapper } from './TodoListItem.styled';
 class TodoListItem extends React.Component {
   constructor(props) {
     super(props);
@@ -31,21 +31,21 @@ class TodoListItem extends React.Component {
           </TodoIcon>
           {isDropdownOpen &&
             <TodoDropdown>
-              <button
+              <TodoDropdownButton
                 onClick={() => this.setState({ isTodoOpen: !isTodoOpen, isDropdownOpen: false })}>
                 Detail
-              </button>
-              <button
+              </TodoDropdownButton>
+              <TodoDropdownButton
                 onClick={() => onHandleRemoveTodo(todo.id)}>
                 Delete
-              </button>
+              </TodoDropdownButton>
             </TodoDropdown>
           }
         </TodoInfoWrapper>
         {isTodoOpen &&
           <TodoDescriptionWrapper>
             <p>{todo.description}</p>
-            <TodoIcon>
+            <TodoIcon small>
               <BsXLg onClick={() => this.setState({ isTodoOpen: !isTodoOpen })} />
             </TodoIcon>
           </TodoDescriptionWrapper>
