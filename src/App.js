@@ -2,7 +2,6 @@ import React from 'react';
 
 import { supabase } from './lib/supabase/client';
 
-import Auth from './components/Auth';
 import { SignOutButton } from './components/Account';
 import Layout from './components/Layout';
 import TodoForm from './components/TodoForm';
@@ -10,7 +9,10 @@ import TodoSearch from './components/TodoSearch';
 import TodoContainer from './components/TodoContainer';
 import TodoList from './components/TodoList';
 
-import { AppTitle, ListWrapper, FormWrapper, TodoListContainer } from './App.styled'
+import Login from './pages/Login';
+
+import { AppTitle, ListWrapper, FormWrapper, TodoListContainer, TodoEmptyWrapper, TodoEmptyInfoWrapper, TodoEmptyTitle } from './App.styled';
+import emptyImage from './assets/images/empty.svg';
 
 class App extends React.Component {
   constructor(props) {
@@ -133,47 +135,61 @@ class App extends React.Component {
         : a.priority - b.priority
     );
 
+    const EmptyTodos = (
+      <TodoListContainer>
+        <TodoEmptyWrapper>
+          <TodoEmptyInfoWrapper>
+            <img src={emptyImage} alt={'no todos at all'} />
+            <TodoEmptyTitle>No todos at all</TodoEmptyTitle>
+          </TodoEmptyInfoWrapper>
+        </TodoEmptyWrapper>
+      </TodoListContainer>
+    )
+
     const TodoApp = (
-      <TodoContainer>
-        <FormWrapper>
-          <AppTitle>Todo-list</AppTitle>
-          <TodoForm
-            priorities={priorities}
-            onSubmitTodo={newTodo => this.handleSubmitTodo(newTodo)}
-          />
-          <SignOutButton />
-        </FormWrapper>
-        <ListWrapper>
-          <TodoSearch
-            searchQuery={searchQuery}
-            onHandleSearch={this.handleSearch}
-            onHandleSortChange={this.handleSortChange}
-          />
-          <TodoListContainer>
-            <TodoList
-              todos={filteredTodos}
+      <Layout>
+        <TodoContainer>
+          <FormWrapper>
+            <AppTitle>Todo-list</AppTitle>
+            <TodoForm
               priorities={priorities}
-              onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
-              onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+              onSubmitTodo={newTodo => this.handleSubmitTodo(newTodo)}
             />
-            <p>Archive Task</p>
-            <TodoList
-              todos={completedTodos}
-              priorities={priorities}
-              onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
-              onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+            <SignOutButton />
+          </FormWrapper>
+          <ListWrapper>
+            <TodoSearch
+              searchQuery={searchQuery}
+              onHandleSearch={this.handleSearch}
+              onHandleSortChange={this.handleSortChange}
             />
-          </TodoListContainer>
-        </ListWrapper>
-      </TodoContainer>
+            {todos.length
+              ? <TodoListContainer>
+                <TodoList
+                  todos={filteredTodos}
+                  priorities={priorities}
+                  onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+                  onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+                />
+                <p>Archive Task</p>
+                <TodoList
+                  todos={completedTodos}
+                  priorities={priorities}
+                  onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+                  onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+                />
+              </TodoListContainer>
+              : EmptyTodos
+            }
+          </ListWrapper>
+        </TodoContainer>
+      </Layout>
     )
 
     return (
-      <Layout>
-        <div className="container" style={{ padding: '50px 0 100px 0' }}>
-          {!session ? <Auth /> : TodoApp}
-        </div>
-      </Layout>
+      <>
+        {!session ? Login : TodoApp}
+      </>
     );
   }
 }
