@@ -27,6 +27,11 @@ const GlobalStyle = createGlobalStyle`
   img {
     width: 100%;
   }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
 `
 
 ReactDOM.render(
