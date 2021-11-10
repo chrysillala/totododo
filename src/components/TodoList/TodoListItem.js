@@ -26,8 +26,8 @@ class TodoListItem extends React.Component {
             <TodoDate>{(new Date(todo.dueDate)).toLocaleDateString()}</TodoDate>{' '}
             <TodoPriorityPill priority={todo.priority}>{priorities[todo.priority]}</TodoPriorityPill>
           </TodoItemContent>
-          <TodoIcon>
-            <GoKebabHorizontal onClick={() => this.setState({ isDropdownOpen: !isDropdownOpen })} />
+          <TodoIcon onClick={() => this.setState({ isDropdownOpen: !isDropdownOpen })}>
+            <GoKebabHorizontal />
           </TodoIcon>
           {isDropdownOpen &&
             <TodoDropdown>
