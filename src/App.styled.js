@@ -20,3 +20,21 @@ export const FormWrapper = styled.div`
 export const TodoListContainer = styled.div`
   padding: 0 16px;
 `
+
+export const TodoEmptyWrapper = styled.div`
+  display: grid;
+  width: 100%;
+  place-items: center;
+  min-height: 500px;
+`
+
+export const TodoEmptyInfoWrapper = styled.div`
+  width: 70%;
+`
+
+export const TodoEmptyTitle = styled.div`
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--gray);
+  text-align: center;
+`

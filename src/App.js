@@ -8,7 +8,8 @@ import TodoSearch from './components/TodoSearch';
 import TodoContainer from './components/TodoContainer';
 import TodoList from './components/TodoList';
 
-import { AppTitle, ListWrapper, FormWrapper, TodoListContainer } from './App.styled'
+import { AppTitle, ListWrapper, FormWrapper, TodoListContainer, TodoEmptyWrapper, TodoEmptyInfoWrapper, TodoEmptyTitle } from './App.styled';
+import emptyImage from './assets/images/empty.svg';
 
 class App extends React.Component {
   constructor(props) {
@@ -83,6 +84,17 @@ class App extends React.Component {
         : a.priority - b.priority
     );
 
+    const EmptyTodos = (
+      <TodoListContainer>
+        <TodoEmptyWrapper>
+          <TodoEmptyInfoWrapper>
+            <img src={emptyImage} alt={'no todos at all'} />
+            <TodoEmptyTitle>No todos at all</TodoEmptyTitle>
+          </TodoEmptyInfoWrapper>
+        </TodoEmptyWrapper>
+      </TodoListContainer>
+    )
+
     return (
       <Layout>
         <TodoContainer>
@@ -99,21 +111,24 @@ class App extends React.Component {
               onHandleSearch={this.handleSearch}
               onHandleSortChange={this.handleSortChange}
             />
-            <TodoListContainer>
-              <TodoList
-                todos={filteredTodos}
-                priorities={priorities}
-                onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
-                onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
-              />
-              <p>Archive Task</p>
-              <TodoList
-                todos={completedTodos}
-                priorities={priorities}
-                onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
-                onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
-              />
-            </TodoListContainer>
+            {todos.length
+              ? <TodoListContainer>
+                <TodoList
+                  todos={filteredTodos}
+                  priorities={priorities}
+                  onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+                  onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+                />
+                <p>Archive Task</p>
+                <TodoList
+                  todos={completedTodos}
+                  priorities={priorities}
+                  onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+                  onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
+                />
+              </TodoListContainer>
+              : EmptyTodos
+            }
           </ListWrapper>
         </TodoContainer>
       </Layout>
