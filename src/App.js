@@ -29,7 +29,12 @@ class App extends React.Component {
   // so no need to bind the function
   // resulting in cleaner code
 
-  handleRemoveTodo = (todoId) => {
+  handleRemoveTodo = async (todoId) => {
+    await supabase
+      .from('todos')
+      .delete()
+      .eq("id", todoId);
+
     this.setState({
       ...this.state,
       todos: this.state.todos.filter(({ id }) => id !== todoId),
