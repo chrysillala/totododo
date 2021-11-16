@@ -9,7 +9,7 @@ const TodoSearch = ({ searchQuery, onHandleSearch, onHandleSortChange }) => {
         <option value="priority">Priority</option>
       </TodoSortSelect>
       <TodoSearchInput
-        type="text"
+        type="search"
         name="searchQuery"
         onChange={(event) => onHandleSearch(event.target.value)}
         value={searchQuery}
