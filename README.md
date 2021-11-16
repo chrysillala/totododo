@@ -53,4 +53,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Key Takeaways
 
-Read key takeaways that I learned [here](../TAKEAWAYS.md)
+Read key takeaways that I learned [here](../master/TAKEAWAYS.md)
