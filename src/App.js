@@ -153,6 +153,7 @@ class App extends React.Component {
             <AppTitle>Todo-list</AppTitle>
             <TodoForm
               priorities={priorities}
+              session={session}
               onSubmitTodo={newTodo => this.handleSubmitTodo(newTodo)}
             />
             <UserPanel />

@@ -1,12 +1,9 @@
 import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
-import { supabase } from '../../lib/supabase/client';
 import "react-datepicker/dist/react-datepicker.css";
 
 import { TodoFormWrapper, FormTitleInput, FormPrioritySelect, FormDueDatePicker, FormDescriptionTextarea, FormButtonWrapper, FormSubmitButton, FormCancelButton, FormErrorMessages, FormErrorMessage } from './TodoForm.styled';
-
-const user = supabase.auth.user();
 
 const initialTodo = {
   todoId: '',
@@ -104,7 +101,7 @@ class TodoForm extends React.Component {
       priority: this.state.todoForm.priority,
       dueDate: this.state.todoForm.dueDate,
       isCompleted: false,
-      user_id: user.id
+      user_id: this.props.session.user.id,
     };
 
     if (isValid) {
