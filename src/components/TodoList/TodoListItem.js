@@ -20,7 +20,7 @@ class TodoListItem extends React.Component {
     return (
       <TodoItemWrapper>
         <TodoInfoWrapper>
-          <TodoIcon onClick={() => onHandleCompleteTodo(todo.id)}>{todo.isCompleted ? <BsCheckCircleFill /> : <BsCircle />}</TodoIcon>
+          <TodoIcon onClick={() => onHandleCompleteTodo(todo)}>{todo.isCompleted ? <BsCheckCircleFill /> : <BsCircle />}</TodoIcon>
           <TodoItemContent>
             <TodoTitle>{todo.title}</TodoTitle>
             <TodoDate>{(new Date(todo.dueDate)).toLocaleDateString()}</TodoDate>{' '}

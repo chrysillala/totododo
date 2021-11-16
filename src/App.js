@@ -43,11 +43,11 @@ class App extends React.Component {
     })
   }
 
-  handleCompleteTodo = async (todoId) => {
+  handleCompleteTodo = async (todo) => {
     const { data: todoData, error } = await supabase
       .from('todos')
-      .update({ isCompleted: true })
-      .eq("id", todoId)
+      .update({ isCompleted: !todo.isCompleted })
+      .eq("id", todo.id)
       .single();
 
     if (error) {
@@ -169,14 +169,14 @@ class App extends React.Component {
                 <TodoList
                   todos={filteredTodos}
                   priorities={priorities}
-                  onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+                  onHandleCompleteTodo={(todo) => this.handleCompleteTodo(todo)}
                   onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
                 />
                 <p>Archive Task</p>
                 <TodoList
                   todos={completedTodos}
                   priorities={priorities}
-                  onHandleCompleteTodo={(todoId) => this.handleCompleteTodo(todoId)}
+                  onHandleCompleteTodo={(todo) => this.handleCompleteTodo(todo)}
                   onHandleRemoveTodo={(todoId) => this.handleRemoveTodo(todoId)}
                 />
               </TodoListContainer>
