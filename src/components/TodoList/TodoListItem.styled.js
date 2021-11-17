@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { motion } from "framer-motion";
 
 const priorityColors = ['var(--secondary)', 'var(--primary)', 'var(--red)'];
 
-export const TodoItemWrapper = styled.li`
+export const TodoItemWrapper = styled(motion.li)`
   border: 1px solid var(--secondary);
   border-radius: 8px;
   margin-bottom: 16px;
@@ -53,7 +54,7 @@ export const TodoPriorityPill = styled.span`
   align-items: center;
 `;
 
-export const TodoDescriptionWrapper = styled.div`
+export const TodoDescriptionWrapper = styled(motion.div)`
   font-size: 12px;
   color: var(--gray);
   padding: 13px;
@@ -62,7 +63,7 @@ export const TodoDescriptionWrapper = styled.div`
   justify-content: space-between;
 `;
 
-export const TodoDropdown = styled.div`
+export const TodoDropdown = styled(motion.div)`
   position: absolute;
   top: 40px;
   right: 10px;

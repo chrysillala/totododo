@@ -1,3 +1,5 @@
+import { AnimatePresence } from 'framer-motion';
+
 import styled from 'styled-components';
 import TodoListItem from './TodoListItem';
 
@@ -12,15 +14,17 @@ const TodoList = ({ todos, priorities, onHandleCompleteTodo, onHandleRemoveTodo 
 
   const TodoListContent = (
     <StyledTodoList>
-      {todos.map((todo) => (
-        <TodoListItem
-          key={todo.todoId}
-          todo={todo}
-          priorities={priorities}
-          onHandleCompleteTodo={onHandleCompleteTodo}
-          onHandleRemoveTodo={onHandleRemoveTodo}
-        />
-      ))}
+      <AnimatePresence initial={false}>
+        {todos.map((todo) => (
+          <TodoListItem
+            key={todo.todoId}
+            todo={todo}
+            priorities={priorities}
+            onHandleCompleteTodo={onHandleCompleteTodo}
+            onHandleRemoveTodo={onHandleRemoveTodo}
+          />
+        ))}
+      </AnimatePresence>
     </StyledTodoList>
   )
 
